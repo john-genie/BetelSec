@@ -56,7 +56,7 @@ const QDayCountdown = () => {
   const AnimatedNumber = ({ value }: { value: number }) => {
     const formattedValue = String(value).padStart(2, '0');
     return (
-      <div className="relative h-16 w-14 overflow-hidden sm:h-20 sm:w-16 md:h-28 md:w-24">
+      <div className="relative h-12 w-10 overflow-hidden sm:h-20 sm:w-16 md:h-28 md:w-24">
         <AnimatePresence mode="popLayout">
           <motion.span
             key={value}
@@ -64,7 +64,7 @@ const QDayCountdown = () => {
             animate={{ y: '0%', opacity: 1 }}
             exit={{ y: '-100%', opacity: 0 }}
             transition={{ type: 'spring', stiffness: 200, damping: 20, duration: 0.6 }}
-            className="absolute inset-0 flex items-center justify-center text-4xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl"
+            className="absolute inset-0 flex items-center justify-center text-3xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl"
           >
             {formattedValue}
           </motion.span>
@@ -76,8 +76,8 @@ const QDayCountdown = () => {
   const StaticNumber = ({ value }: { value: number }) => {
     const formattedValue = String(value).padStart(2, '0');
     return (
-      <div className="relative flex h-16 w-14 items-center justify-center overflow-hidden sm:h-20 sm:w-16 md:h-28 md:w-24">
-        <span className="text-4xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl">
+      <div className="relative flex h-12 w-10 items-center justify-center overflow-hidden sm:h-20 sm:w-16 md:h-28 md:w-24">
+        <span className="text-3xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl">
           {formattedValue}
         </span>
       </div>
@@ -91,36 +91,36 @@ const QDayCountdown = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"></div>
         <div className="absolute inset-0 rounded-lg border border-white/5"></div>
       </div>
-      <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:mt-4 sm:text-sm">{label}</p>
+      <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:mt-3 sm:text-sm">{label}</p>
     </div>
   );
 
   return (
-    <div className="flex items-start justify-center gap-1 sm:gap-4 md:gap-6">
+    <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-6">
       <TimeUnit label="Years">
-        <div className="relative flex h-16 w-auto items-center justify-center overflow-hidden px-1 sm:h-20 sm:px-2 md:h-28">
-            <span className="text-4xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl">
+        <div className="relative flex h-12 w-auto items-center justify-center overflow-hidden px-1 sm:h-20 sm:px-2 md:h-28">
+            <span className="text-3xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl">
               {timeLeft.years}
             </span>
         </div>
       </TimeUnit>
-       <div className="flex h-16 items-center text-4xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
+       <div className="flex h-12 items-center text-3xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
       <TimeUnit label="Days">
-        <div className="relative flex h-16 w-auto items-center justify-center overflow-hidden px-1 sm:h-20 sm:px-2 md:h-28">
-            <span className="text-4xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl">
+        <div className="relative flex h-12 w-auto items-center justify-center overflow-hidden px-1 sm:h-20 sm:px-2 md:h-28">
+            <span className="text-3xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl">
               {String(timeLeft.days).padStart(3, '0')}
             </span>
         </div>
       </TimeUnit>
-       <div className="flex h-16 items-center text-4xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
+       <div className="flex h-12 items-center text-3xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
       <TimeUnit label="Hours">
         <StaticNumber value={timeLeft.hours} />
       </TimeUnit>
-       <div className="flex h-16 items-center text-4xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
+       <div className="flex h-12 items-center text-3xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
       <TimeUnit label="Minutes">
         <StaticNumber value={timeLeft.minutes} />
       </TimeUnit>
-       <div className="flex h-16 items-center text-4xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
+       <div className="flex h-12 items-center text-3xl font-bold text-muted-foreground sm:h-20 sm:text-6xl md:h-28 md:text-8xl">:</div>
       <TimeUnit label="Seconds">
         <AnimatedNumber value={timeLeft.seconds} />
       </TimeUnit>
