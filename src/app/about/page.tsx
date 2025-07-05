@@ -1,8 +1,9 @@
 'use client';
 
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Info } from 'lucide-react';
 import { InteractiveCard } from '@/components/interactive-card';
 import { TeamAnimation } from '@/components/team-animation';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function AboutPage() {
   return (
@@ -16,6 +17,16 @@ export default function AboutPage() {
             Pioneering the future of digital security in the quantum era.
           </p>
         </header>
+        <div className="container max-w-4xl mt-12">
+          <Alert>
+            <Info className="h-4 w-4" />
+            <AlertTitle>A Quick Note</AlertTitle>
+            <AlertDescription>
+              This page is currently being updated to better share our story.
+              Thank you for your patience and for visiting!
+            </AlertDescription>
+          </Alert>
+        </div>
       </section>
 
       <section className="bg-secondary py-24">
