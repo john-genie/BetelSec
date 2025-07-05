@@ -448,30 +448,33 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="h-full"
               >
-                <Card className="bg-secondary/30">
-                  <CardHeader>
-                    <CardTitle className="text-xl">{item.threat}</CardTitle>
-                    <CardDescription className="pt-1">{item.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <h4 className="mb-2 font-semibold text-foreground">Mitigated By:</h4>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                      {matrixProducts.map((product) => (
-                        <div key={product.id} className="flex items-center gap-2 text-sm">
-                          {item.mitigation[product.id as keyof typeof item.mitigation] ? (
-                            <ShieldCheck className="h-5 w-5 flex-shrink-0 text-primary" />
-                          ) : (
-                            <div className="h-5 w-5 flex-shrink-0" />
-                          )}
-                          <Link href={product.href} className="text-muted-foreground hover:text-foreground">
-                            {product.name}
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                <InteractiveCard className="h-full">
+                  <Card className="bg-secondary/30 h-full">
+                    <CardHeader>
+                      <CardTitle className="text-xl">{item.threat}</CardTitle>
+                      <CardDescription className="pt-1">{item.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <h4 className="mb-2 font-semibold text-foreground">Mitigated By:</h4>
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                        {matrixProducts.map((product) => (
+                          <div key={product.id} className="flex items-center gap-2 text-sm">
+                            {item.mitigation[product.id as keyof typeof item.mitigation] ? (
+                              <ShieldCheck className="h-5 w-5 flex-shrink-0 text-primary" />
+                            ) : (
+                              <div className="h-5 w-5 flex-shrink-0" />
+                            )}
+                            <Link href={product.href} className="text-muted-foreground hover:text-foreground">
+                              {product.name}
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </InteractiveCard>
               </motion.div>
             ))}
           </div>

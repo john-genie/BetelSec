@@ -49,7 +49,9 @@ export function InteractiveCard({ children, className }: InteractiveCardProps) {
         }}
         className="h-full"
       >
-        {children}
+        <div className="animate-float h-full w-full" style={{ transformStyle: 'preserve-3d' }}>
+          {children}
+        </div>
       </motion.div>
     </div>
   );

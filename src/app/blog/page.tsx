@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { InteractiveCard } from '@/components/interactive-card';
 
 const blogPosts = [
   {
@@ -92,21 +93,23 @@ export default function BlogPage() {
                 variants={cardVariants}
                 className="h-full"
               >
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="group flex h-full flex-col rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:bg-secondary/60 hover:shadow-[0_0_25px_hsl(var(--primary)/0.2)]"
-                >
-                  <h3 className="text-xl font-bold tracking-tight text-foreground">
-                    {post.title}
-                  </h3>
-                  <p className="mt-4 flex-grow text-muted-foreground">
-                    {post.excerpt}
-                  </p>
-                  <div className="mt-6 flex items-center font-semibold text-foreground">
-                    Read More
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </Link>
+                <InteractiveCard className="h-full">
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="group flex h-full flex-col rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:bg-secondary/60 hover:shadow-[0_0_25px_hsl(var(--primary)/0.2)]"
+                  >
+                    <h3 className="text-xl font-bold tracking-tight text-foreground">
+                      {post.title}
+                    </h3>
+                    <p className="mt-4 flex-grow text-muted-foreground">
+                      {post.excerpt}
+                    </p>
+                    <div className="mt-6 flex items-center font-semibold text-foreground">
+                      Read More
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                  </Link>
+                </InteractiveCard>
               </motion.div>
             ))}
           </div>
