@@ -141,7 +141,7 @@ export function Header() {
                     <Logo className="h-6 w-6" />
                     <span>BetelSec</span>
                 </Link>
-              <nav className="flex flex-col gap-1">
+              <nav className="flex flex-col gap-2">
                  <SheetClose asChild>
                     <Button variant="ghost" asChild className="w-full justify-start text-lg">
                         <Link href="/">Home</Link>
@@ -150,7 +150,7 @@ export function Header() {
 
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="products" className="border-b-0">
-                    <AccordionTrigger className="py-2.5 text-lg font-normal hover:no-underline [&[data-state=open]>svg]:rotate-180">Products</AccordionTrigger>
+                    <AccordionTrigger className="px-4 py-2 text-lg font-medium hover:no-underline [&[data-state=open]>svg]:rotate-180">Products</AccordionTrigger>
                     <AccordionContent className="pl-6 pb-2">
                       <div className="flex flex-col gap-2">
                         {productLinks.map(link => (
@@ -162,7 +162,7 @@ export function Header() {
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="threats" className="border-b-0">
-                    <AccordionTrigger className="py-2.5 text-lg font-normal hover:no-underline [&[data-state=open]>svg]:rotate-180">Threat Analysis</AccordionTrigger>
+                    <AccordionTrigger className="px-4 py-2 text-lg font-medium hover:no-underline [&[data-state=open]>svg]:rotate-180">Threat Analysis</AccordionTrigger>
                     <AccordionContent className="pl-6 pb-2">
                        <div className="flex flex-col gap-2">
                         {threatLinks.map(link => (
