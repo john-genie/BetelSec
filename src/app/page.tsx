@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -387,12 +388,13 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Desktop View */}
           <motion.div
             variants={matrixContainerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="grid grid-cols-[1fr,repeat(4,auto)] rounded-lg border bg-secondary/30"
+            className="hidden rounded-lg border bg-secondary/30 md:grid md:grid-cols-[1fr,repeat(4,auto)]"
           >
             {/* Header Row */}
             <div className="p-4 text-left font-semibold text-foreground sm:pl-6">Threat Vector</div>
@@ -412,7 +414,6 @@ export default function Home() {
             {/* Data Rows */}
             {mitigationData.map((item, rowIndex) => (
               <div key={item.threat} className="contents group">
-                {/* Row background hover effect */}
                 <div className="col-span-full row-start-[--row-start] row-end-[--row-end] -mx-px -my-px rounded-lg bg-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ '--row-start': rowIndex + 2, '--row-end': rowIndex + 3 } as React.CSSProperties}></div>
 
                 <div className="relative border-t border-border p-4 text-sm sm:pl-6">
@@ -437,6 +438,43 @@ export default function Home() {
               </div>
             ))}
           </motion.div>
+
+          {/* Mobile View */}
+          <div className="space-y-4 md:hidden">
+            {mitigationData.map((item, index) => (
+              <motion.div
+                key={item.threat}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="bg-secondary/30">
+                  <CardHeader>
+                    <CardTitle className="text-xl">{item.threat}</CardTitle>
+                    <CardDescription className="pt-1">{item.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <h4 className="mb-2 font-semibold text-foreground">Mitigated By:</h4>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                      {matrixProducts.map((product) => (
+                        <div key={product.id} className="flex items-center gap-2 text-sm">
+                          {item.mitigation[product.id as keyof typeof item.mitigation] ? (
+                            <ShieldCheck className="h-5 w-5 flex-shrink-0 text-primary" />
+                          ) : (
+                            <div className="h-5 w-5 flex-shrink-0" />
+                          )}
+                          <Link href={product.href} className="text-muted-foreground hover:text-foreground">
+                            {product.name}
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
       
