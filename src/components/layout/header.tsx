@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Menu, ChevronDown, Lock } from 'lucide-react';
+import { ChevronDown, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Sheet,
@@ -26,6 +26,7 @@ import {
 import { Logo } from '../icons/logo';
 import React from 'react';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from '../ui/navigation-menu';
+import { FuturisticMenuIcon } from '../icons/futuristic-menu-icon';
 
 const productLinks = [
     { name: 'PRISM', href: '/products/prism', description: 'AI-powered threat mitigation & hybrid PQC encryption for total data protection.' },
@@ -42,6 +43,7 @@ const threatLinks = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredProduct, setHoveredProduct] = useState(productLinks[0]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -130,10 +132,10 @@ export function Header() {
         </nav>
 
         <div className="md:hidden">
-          <Sheet>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
-                <Menu />
+                <FuturisticMenuIcon open={mobileMenuOpen} />
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
@@ -141,9 +143,9 @@ export function Header() {
                     <Logo className="h-6 w-6" />
                     <span>BetelSec</span>
                 </Link>
-              <nav className="flex flex-col gap-2">
+              <nav className="flex flex-col gap-4">
                  <SheetClose asChild>
-                    <Button variant="ghost" asChild className="w-full justify-start text-lg">
+                    <Button variant="ghost" asChild className="w-full justify-start text-lg px-4 py-2 font-medium">
                         <Link href="/">Home</Link>
                     </Button>
                 </SheetClose>
@@ -176,17 +178,17 @@ export function Header() {
                 </Accordion>
                 
                 <SheetClose asChild>
-                    <Button variant="ghost" asChild className="w-full justify-start text-lg">
+                    <Button variant="ghost" asChild className="w-full justify-start text-lg px-4 py-2 font-medium">
                         <Link href="/about">About Us</Link>
                     </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                    <Button variant="ghost" asChild className="w-full justify-start text-lg">
+                    <Button variant="ghost" asChild className="w-full justify-start text-lg px-4 py-2 font-medium">
                         <Link href="/blog">Blog</Link>
                     </Button>
                 </SheetClose>
                  <SheetClose asChild>
-                    <Button variant="ghost" asChild className="w-full justify-start text-lg">
+                    <Button variant="ghost" asChild className="w-full justify-start text-lg px-4 py-2 font-medium">
                         <Link href="/contact">Contact</Link>
                     </Button>
                 </SheetClose>
