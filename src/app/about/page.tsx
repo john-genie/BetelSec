@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { CheckCircle } from 'lucide-react';
 import { InteractiveCard } from '@/components/interactive-card';
+import { TeamAnimation } from '@/components/team-animation';
 
 export default function AboutPage() {
   return (
@@ -30,15 +30,8 @@ export default function AboutPage() {
               increasingly complex digital landscape.
             </p>
           </div>
-          <div>
-            <Image
-              src="https://placehold.co/600x400.png"
-              alt="Team collaborating"
-              width={600}
-              height={400}
-              className="rounded-lg"
-              data-ai-hint="office workspace"
-            />
+          <div className="flex items-center justify-center">
+            <TeamAnimation />
           </div>
         </div>
       </section>
