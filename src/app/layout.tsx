@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import Preloader from '@/components/preloader';
 import { gsap } from 'gsap';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -123,7 +123,7 @@ export default function RootLayout({
   const mainContentVariants = {
     hidden: {
       opacity: 0,
-      scale: 1.5,
+      scale: 1.05,
       filter: 'blur(8px)',
     },
     visible: {
@@ -140,7 +140,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('antialiased font-sans', inter.variable)}>
-        {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+        <AnimatePresence>
+          {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+        </AnimatePresence>
 
         <div className="cursor-container">
           <div className="cursor-dot" ref={cursorDotRef} />

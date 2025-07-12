@@ -54,7 +54,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div className="preloader fixed inset-0 z-[100] flex items-center justify-center bg-background text-foreground overflow-hidden p-4">
       <div className="preloader-content relative z-10 flex w-full max-w-xs sm:max-w-md flex-col items-center gap-4">
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-wider sm:tracking-widest">
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-wider sm:tracking-widest">
           {'Betelsec'.split('').map((char, index) => (
             <span
               key={index}
