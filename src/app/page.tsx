@@ -30,6 +30,8 @@ import { InteractiveCard } from '@/components/interactive-card';
 import { ThreatIcon3D } from '@/components/threat-icon-3d';
 import QDayCountdown from '@/components/qday-countdown';
 import { cn } from '@/lib/utils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Terminal } from 'lucide-react';
 
 const industries = [
   {
@@ -208,7 +210,7 @@ export default function Home() {
       {/* Quantum Threat Dashboard Section */}
       <section
         id="q-day"
-        className="items-center bg-background overflow-hidden py-24 text-center"
+        className="items-center bg-background overflow-hidden pt-16 pb-24 text-center"
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl section-header">
@@ -290,7 +292,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {industries.map((industry) => (
               <InteractiveCard key={industry.title}>
-                <Card className="h-full min-h-[280px] border-border bg-background text-left transition-all duration-300 flex flex-col justify-center">
+                <Card className="h-full min-h-[280px] border-border/50 bg-background text-left transition-all duration-300 flex flex-col justify-center animate-float">
                   <CardHeader>
                     <industry.icon className="mb-4 h-8 w-8 text-foreground" />
                     <CardTitle>{industry.title}</CardTitle>
@@ -388,13 +390,13 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Desktop View */}
+          {/* Desktop Matrix */}
           <motion.div
             variants={matrixContainerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="hidden rounded-lg border bg-secondary/30 md:grid md:grid-cols-[1fr,repeat(4,auto)]"
+            className="hidden lg:grid grid-cols-[1fr,repeat(4,auto)] rounded-lg border border-border/50 bg-secondary/30"
           >
             {/* Header Row */}
             <div className="p-4 text-left font-semibold text-foreground sm:pl-6">Threat Vector</div>
@@ -416,7 +418,7 @@ export default function Home() {
               <div key={item.threat} className="contents group">
                 <div className="col-span-full row-start-[--row-start] row-end-[--row-end] -mx-px -my-px rounded-lg bg-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ '--row-start': rowIndex + 2, '--row-end': rowIndex + 3 } as React.CSSProperties}></div>
 
-                <div className="relative border-t border-border p-4 text-sm sm:pl-6">
+                <div className="relative border-t border-border/50 p-4 text-sm sm:pl-6">
                   <div className="font-medium text-foreground">{item.threat}</div>
                   <div className="mt-1 text-muted-foreground">{item.description}</div>
                 </div>
@@ -424,7 +426,7 @@ export default function Home() {
                   <div
                     key={product.id}
                     className={cn(
-                      "relative flex items-center justify-center border-t border-border px-3 py-4 text-sm text-muted-foreground transition-colors duration-300",
+                      "relative flex items-center justify-center border-t border-border/50 px-3 py-4 text-sm text-muted-foreground transition-colors duration-300",
                       hoveredColumn === colIndex && 'bg-primary/10'
                     )}
                   >
@@ -439,44 +441,37 @@ export default function Home() {
             ))}
           </motion.div>
 
-          {/* Mobile View */}
-          <div className="space-y-4 md:hidden">
-            {mitigationData.map((item, index) => (
-              <motion.div
-                key={item.threat}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="h-full"
-              >
-                <InteractiveCard className="h-full">
-                  <Card className="bg-secondary/30 h-full">
-                    <CardHeader>
-                      <CardTitle className="text-xl">{item.threat}</CardTitle>
-                      <CardDescription className="pt-1">{item.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <h4 className="mb-2 font-semibold text-foreground">Mitigated By:</h4>
-                      <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                        {matrixProducts.map((product) => (
-                          <div key={product.id} className="flex items-center gap-2 text-sm">
-                            {item.mitigation[product.id as keyof typeof item.mitigation] ? (
-                              <ShieldCheck className="h-5 w-5 flex-shrink-0 text-primary" />
-                            ) : (
-                              <div className="h-5 w-5 flex-shrink-0" />
-                            )}
-                            <Link href={product.href} className="text-muted-foreground hover:text-foreground">
-                              {product.name}
-                            </Link>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </InteractiveCard>
-              </motion.div>
-            ))}
+          {/* Mobile/Tablet Card List */}
+          <div className="grid grid-cols-1 gap-6 lg:hidden md:grid-cols-2">
+              {mitigationData.map((item, index) => (
+                  <InteractiveCard key={index}>
+                      <Card className="h-full border-border/50 bg-secondary/30 animate-float">
+                          <CardHeader>
+                              <CardTitle>{item.threat}</CardTitle>
+                              <p className="pt-2 text-sm text-muted-foreground">{item.description}</p>
+                          </CardHeader>
+                          <CardContent>
+                              <h4 className="font-semibold text-foreground mb-3">Mitigated By:</h4>
+                              <div className="flex flex-wrap gap-x-6 gap-y-3">
+                                  {matrixProducts.map(product => (
+                                      <div
+                                          key={product.id}
+                                          className={cn(
+                                              "flex items-center gap-2 text-sm",
+                                              item.mitigation[product.id as keyof typeof item.mitigation]
+                                                  ? "text-primary"
+                                                  : "text-muted-foreground opacity-60 line-through"
+                                          )}
+                                      >
+                                          <ShieldCheck className={cn("h-5 w-5", item.mitigation[product.id as keyof typeof item.mitigation] ? 'text-primary' : 'text-muted-foreground')} />
+                                          <span>{product.name}</span>
+                                      </div>
+                                  ))}
+                              </div>
+                          </CardContent>
+                      </Card>
+                  </InteractiveCard>
+              ))}
           </div>
         </div>
       </section>
