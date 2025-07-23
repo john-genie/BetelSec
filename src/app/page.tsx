@@ -130,18 +130,26 @@ const matrixProducts = [
 export default function Home() {
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
 
-  const pillarVariants = {
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
     hidden: { opacity: 0, y: 50, scale: 0.95 },
-    visible: (i: number) => ({
+    visible: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        delay: i * 0.15,
         duration: 0.8,
         ease: 'easeOut',
       },
-    }),
+    },
   };
 
   const matrixContainerVariants = {
@@ -167,7 +175,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <>
       {/* Hero Section */}
       <section
         id="hero"
@@ -289,23 +297,31 @@ export default function Home() {
               industries, where the stakes are highest.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+          >
             {industries.map((industry) => (
-              <InteractiveCard key={industry.title}>
-                <Card className="h-full min-h-[280px] border-border/50 bg-background text-left transition-all duration-300 flex flex-col justify-center animate-float">
-                  <CardHeader>
-                    <industry.icon className="mb-4 h-8 w-8 text-foreground" />
-                    <CardTitle>{industry.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">
-                      {industry.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </InteractiveCard>
+              <motion.div key={industry.title} variants={itemVariants}>
+                <InteractiveCard>
+                  <Card className="h-full min-h-[280px] border-border/50 bg-background text-left transition-all duration-300 flex flex-col justify-center">
+                    <CardHeader>
+                      <industry.icon className="mb-4 h-8 w-8 text-foreground" />
+                      <CardTitle>{industry.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        {industry.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </InteractiveCard>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -324,21 +340,19 @@ export default function Home() {
               current and future quantum threats.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {pillars.map((pillar, index) => (
-              <motion.div
-                key={pillar.title}
-                variants={pillarVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                custom={index}
-                className="h-full"
-              >
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-1 gap-8 md:grid-cols-3"
+          >
+            {pillars.map((pillar) => (
+              <motion.div key={pillar.title} variants={itemVariants} className="h-full">
                 <StrategicPillarCard pillar={pillar} />
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -397,6 +411,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             className="hidden lg:grid grid-cols-[1fr,repeat(4,auto)] rounded-lg border border-border/50 bg-secondary/30"
+            onMouseLeave={() => setHoveredColumn(null)}
           >
             {/* Header Row */}
             <div className="p-4 text-left font-semibold text-foreground sm:pl-6">Threat Vector</div>
@@ -404,8 +419,10 @@ export default function Home() {
               <div
                 key={product.id}
                 onMouseEnter={() => setHoveredColumn(colIndex)}
-                onMouseLeave={() => setHoveredColumn(null)}
-                className="p-4 text-center font-semibold text-foreground transition-colors duration-300"
+                className={cn(
+                    "p-4 text-center font-semibold text-foreground transition-colors duration-300",
+                    hoveredColumn === colIndex && "text-primary"
+                )}
               >
                 <Link href={product.href} className="hover:text-primary hover:underline">
                   {product.name}
@@ -416,7 +433,13 @@ export default function Home() {
             {/* Data Rows */}
             {mitigationData.map((item, rowIndex) => (
               <div key={item.threat} className="contents group">
-                <div className="col-span-full row-start-[--row-start] row-end-[--row-end] -mx-px -my-px rounded-lg bg-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ '--row-start': rowIndex + 2, '--row-end': rowIndex + 3 } as React.CSSProperties}></div>
+                <div 
+                    className={cn(
+                        "col-span-full row-start-[--row-start] row-end-[--row-end] -mx-px -my-px rounded-lg bg-primary/5 opacity-0 transition-opacity duration-300",
+                        "group-hover:opacity-100"
+                    )}
+                    style={{ '--row-start': rowIndex + 2, '--row-end': rowIndex + 3 } as React.CSSProperties}
+                ></div>
 
                 <div className="relative border-t border-border/50 p-4 text-sm sm:pl-6">
                   <div className="font-medium text-foreground">{item.threat}</div>
@@ -425,6 +448,7 @@ export default function Home() {
                 {matrixProducts.map((product, colIndex) => (
                   <div
                     key={product.id}
+                    onMouseEnter={() => setHoveredColumn(colIndex)}
                     className={cn(
                       "relative flex items-center justify-center border-t border-border/50 px-3 py-4 text-sm text-muted-foreground transition-colors duration-300",
                       hoveredColumn === colIndex && 'bg-primary/10'
@@ -444,8 +468,9 @@ export default function Home() {
           {/* Mobile/Tablet Card List */}
           <div className="grid grid-cols-1 gap-6 lg:hidden md:grid-cols-2">
               {mitigationData.map((item, index) => (
-                  <InteractiveCard key={index}>
-                      <Card className="h-full border-border/50 bg-secondary/30 animate-float">
+                <motion.div key={index} variants={itemVariants}>
+                  <InteractiveCard>
+                      <Card className="h-full border-border/50 bg-secondary/30">
                           <CardHeader>
                               <CardTitle>{item.threat}</CardTitle>
                               <p className="pt-2 text-sm text-muted-foreground">{item.description}</p>
@@ -471,6 +496,7 @@ export default function Home() {
                           </CardContent>
                       </Card>
                   </InteractiveCard>
+                </motion.div>
               ))}
           </div>
         </div>
@@ -501,6 +527,6 @@ export default function Home() {
           <Footer />
         </div>
       </section>
-    </div>
+    </>
   );
 }
