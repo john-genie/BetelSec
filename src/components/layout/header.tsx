@@ -38,6 +38,7 @@ const productLinks = [
 
 const threatLinks = [
     { name: 'Harvest Now, Decrypt Later', href: '/threats/harvest-now-decrypt-later' },
+    { name: 'Quantum Risk Assessment', href: '/risk-assessment' },
 ]
 
 export function Header() {
