@@ -127,6 +127,30 @@ const matrixProducts = [
   { id: 'QRC_84', name: 'QRC-84', href: '/products/qrc-84' },
 ];
 
+const blogPosts = [
+  {
+    slug: 'change-healthcare-ransomware-attack',
+    title: 'Change Healthcare Ransomware Attack: A Multi-Billion Dollar Crisis',
+    excerpt: 'An analysis of the February 2024 ALPHV/BlackCat attack that impacted over 100 million patients and is set to cost billions, highlighting the extreme vulnerability of critical healthcare infrastructure.',
+  },
+  {
+    slug: 'cdk-global-ransomware-attack',
+    title: 'CDK Global Hack: How BlackSuit Paralyzed 15,000 Car Dealerships',
+    excerpt: 'The June 2024 attack by the BlackSuit group disabled operations for nearly 15,000 car dealerships, exposing deep vulnerabilities in automotive retail supply chains.',
+  },
+   {
+    slug: 'synnovis-nhs-ransomware-attack',
+    title: 'Synnovis/NHS Attack: How Qilin Crippled London Lab Services',
+    excerpt: 'An analysis of the June 2024 attack by the Russian group Qilin, which disrupted thousands of NHS appointments and operations, with patient data stolen and costs soaring into the tens of millions.',
+  },
+  {
+    slug: 'google-quantum-rsa-breakthrough',
+    title: 'Google Quantum AI: A New Era for Breaking RSA-2048',
+    excerpt:
+      "A deep dive into Google's latest research, which dramatically reduces the estimated quantum computing power needed to break today's encryption standards.",
+  },
+];
+
 export default function Home() {
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
 
@@ -499,6 +523,59 @@ export default function Home() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* Recent Briefings Section */}
+      <section
+        id="recent-briefings"
+        className="items-center bg-background overflow-hidden py-24"
+      >
+        <div className="container mx-auto px-4">
+          <div className="mx-auto mb-16 max-w-3xl text-center section-header">
+            <h2 className="text-4xl font-bold tracking-tighter">
+              Recent Briefings
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Timely analysis of emerging threats and security incidents from the front lines of cyber defense.
+            </p>
+          </div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {blogPosts.slice(0, 3).map((post) => (
+              <motion.div key={post.slug} variants={itemVariants}>
+                <InteractiveCard>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="group flex h-full flex-col rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:bg-secondary/60 hover:shadow-[0_0_25px_hsl(var(--primary)/0.2)]"
+                  >
+                    <h3 className="text-xl font-bold tracking-tight text-foreground">
+                      {post.title}
+                    </h3>
+                    <p className="mt-4 flex-grow text-muted-foreground">
+                      {post.excerpt}
+                    </p>
+                    <div className="mt-6 flex items-center font-semibold text-foreground">
+                      Read Analysis
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                  </Link>
+                </InteractiveCard>
+              </motion.div>
+            ))}
+          </motion.div>
+          <div className="mt-16 text-center">
+            <Button asChild size="lg" variant="outline">
+              <Link href="/blog">
+                View All Briefings <ArrowRight />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
