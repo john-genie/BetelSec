@@ -204,7 +204,7 @@ export default function Home() {
       {/* Hero Section */}
       <section
         id="hero"
-        className="hero-container relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background py-20 text-center"
+        className="hero-container relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background py-32 text-center"
       >
         <div className="absolute inset-0 z-0 hero-grid-background" />
 
@@ -213,7 +213,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="max-w-4xl text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl"
+            className="max-w-4xl text-4xl font-bold tracking-normal sm:text-5xl md:text-6xl"
           >
             The Security Of Tomorrow Rethought For Today
           </motion.h1>
@@ -281,7 +281,7 @@ export default function Home() {
       {/* Quantum Threat Dashboard Section */}
       <section
         id="q-day"
-        className="items-center bg-background overflow-hidden pt-24 pb-32 text-center"
+        className="items-center bg-background overflow-hidden pt-32 pb-32 text-center"
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl section-header">
@@ -614,5 +614,3 @@ export default function Home() {
     </>
   );
 }
-
-    
