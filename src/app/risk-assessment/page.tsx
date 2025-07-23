@@ -169,7 +169,7 @@ export default function RiskAssessmentPage() {
                 >
                     <div className="flex justify-center items-center gap-4">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                        <p className="text-lg text-muted-foreground">AI is analyzing your risk profile... This may take a moment.</p>
+                        <p className="text-lg text-muted-foreground">BetelSec is analyzing your profile please wait.</p>
                     </div>
                 </motion.div>
             )}
