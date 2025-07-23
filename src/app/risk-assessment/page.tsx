@@ -282,7 +282,7 @@ export default function RiskAssessmentPage() {
                 transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="mt-12"
               >
-                <Card className="border-primary/20 bg-secondary/20 p-8 shadow-xl">
+                <Card className="border-border/30 bg-secondary/50 p-8 shadow-xl">
                   <CardContent className="space-y-12">
                      <div>
                       <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tighter text-foreground mb-4">
