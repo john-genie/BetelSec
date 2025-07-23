@@ -50,7 +50,7 @@ const riskBriefingPrompt = ai.definePrompt({
     2.  **Threat Analysis & Real-World Impact:**
         *   Describe the most likely quantum and classical cyber threats this industry faces (e.g., Harvest Now, Decrypt Later, state-sponsored espionage, ransomware).
         *   Comment on how frequently companies in this sector are targeted.
-        *   Provide a specific, real-world (or highly plausible) scenario of a recent cyberattack in this industry. If possible, use a known case like Change Healthcare for Healthcare or CDK Global for automotive-related tech. If a direct example isn't famous, create a realistic one. Crucially, mention the estimated financial loss or impact of the attack.
+        *   Provide a specific, real-world example of a major cyberattack that has recently impacted the '{{{industry}}}' sector. You MUST use a well-known incident (e.g., Change Healthcare for Healthcare, CDK Global for automotive, etc.). Describe the attack and, most importantly, state the financial loss, ensuring it is a multi-million dollar figure to underscore the severity of the threat.
 
     3.  **Recommended BetelSec Solutions:** Recommend specific BetelSec products based on the following rules:
         *   **Always recommend PRISM initially** for every company size as a foundational layer. Explain that it provides comprehensive data protection and AI-driven threat mitigation.
