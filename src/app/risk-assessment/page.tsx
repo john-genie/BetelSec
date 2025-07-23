@@ -1,7 +1,7 @@
 // /src/app/risk-assessment/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -23,9 +23,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Shield, AlertTriangle, Lightbulb, Banknote, FileText } from 'lucide-react';
+import { Loader2, Shield, AlertTriangle, FileText } from 'lucide-react';
 import { generateRiskBriefing, GenerateRiskBriefingOutput } from '@/ai/flows/risk-assessment-flow';
+import { suggestIndustry } from '@/ai/flows/suggest-industry-flow';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Textarea } from '@/components/ui/textarea';
+import debounce from 'lodash.debounce';
+
 
 const industries = [
   'Government & Defense',
@@ -45,6 +49,7 @@ const enterpriseSizes = [
 
 const formSchema = z.object({
   companyName: z.string().min(2, { message: 'Please enter your company name.' }),
+  companyDescription: z.string().min(20, { message: 'Please provide at least 20 characters about your company.' }),
   industry: z.string().min(1, { message: 'Please select an industry.' }),
   enterpriseSize: z.string().min(1, { message: 'Please select your company size.' }),
 });
@@ -53,6 +58,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function RiskAssessmentPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuggesting, setIsSuggesting] = useState(false);
   const [briefing, setBriefing] = useState<GenerateRiskBriefingOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,10 +66,39 @@ export default function RiskAssessmentPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       companyName: '',
+      companyDescription: '',
       industry: '',
       enterpriseSize: '',
     },
   });
+
+  const companyDescription = form.watch('companyDescription');
+
+  const debouncedIndustrySuggest = useCallback(
+    debounce(async (description: string) => {
+      if (description.length > 20) {
+        setIsSuggesting(true);
+        try {
+          const { industry } = await suggestIndustry({ companyDescription: description });
+          if (industry && industries.includes(industry)) {
+            form.setValue('industry', industry, { shouldValidate: true });
+          }
+        } catch (e) {
+          console.error("Failed to suggest industry:", e);
+        } finally {
+          setIsSuggesting(false);
+        }
+      }
+    }, 500),
+    [form]
+  );
+
+  useEffect(() => {
+    debouncedIndustrySuggest(companyDescription);
+    return () => {
+      debouncedIndustrySuggest.cancel();
+    }
+  }, [companyDescription, debouncedIndustrySuggest]);
 
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
@@ -85,13 +120,10 @@ export default function RiskAssessmentPage() {
     // A simple markdown renderer that handles paragraphs and bullet points
     return text.split('\n').map((line, index, array) => {
         if (line.startsWith('* ')) {
-            // This is a list item
             return <li key={index} className="ml-4 list-disc">{line.substring(2)}</li>;
         } else if (line.trim() === '') {
-            // This is a blank line, so render a paragraph break
             return <div key={index} className="h-4"></div>;
         } else if (index > 0 && array[index - 1].startsWith('* ') && !line.startsWith('* ')) {
-             // This is the first line after a list, treat it as a new paragraph
              return <p key={index} className="mt-4">{line}</p>
         }
         return <p key={index}>{line}</p>;
@@ -130,55 +162,71 @@ export default function RiskAssessmentPage() {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                    control={form.control}
-                    name="industry"
-                    render={({ field }) => (
+                     <FormField
+                      control={form.control}
+                      name="enterpriseSize"
+                      render={({ field }) => (
                         <FormItem>
-                        <FormLabel className="text-lg">Your Industry</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormLabel className="text-lg">Company Size</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select your industry" />
-                            </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                            {industries.map((industry) => (
-                                <SelectItem key={industry} value={industry}>
-                                {industry}
-                                </SelectItem>
-                            ))}
-                            </SelectContent>
-                        </Select>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="enterpriseSize"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel className="text-lg">Company Size</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                            <SelectTrigger>
+                              <SelectTrigger>
                                 <SelectValue placeholder="Select your company size" />
-                            </SelectTrigger>
+                              </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                            {enterpriseSizes.map((size) => (
+                              {enterpriseSizes.map((size) => (
                                 <SelectItem key={size.value} value={size.value}>
-                                {size.label}
+                                  {size.label}
                                 </SelectItem>
-                            ))}
+                              ))}
                             </SelectContent>
-                        </Select>
-                        <FormMessage />
+                          </Select>
+                          <FormMessage />
                         </FormItem>
-                    )}
+                      )}
                     />
                 </div>
+                <FormField
+                  control={form.control}
+                  name="companyDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-lg">About Your Company</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Briefly describe your company, its services, and customers. This will help us tailor the analysis." {...field} className="min-h-[100px]" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="industry"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-lg flex items-center gap-2">
+                        Your Industry
+                        {isSuggesting && <Loader2 className="h-4 w-4 animate-spin" />}
+                      </FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select your industry" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {industries.map((industry) => (
+                            <SelectItem key={industry} value={industry}>
+                              {industry}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <div className="flex justify-center">
                     <Button type="submit" size="lg" disabled={isLoading}>
                     {isLoading ? (
