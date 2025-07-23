@@ -260,4 +260,13 @@
       transform: rotateY(360deg);
     }
   }
+
+  @media (hover: none), (pointer: coarse), (max-width: 768px) {
+    .cursor-container {
+      display: none;
+    }
+    body, a, button, [role='button'], input, textarea, select, [role='menuitem'] {
+        cursor: auto !important;
+    }
+  }
 }
