@@ -21,9 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Shield, AlertTriangle, Lightbulb } from 'lucide-react';
+import { Loader2, Shield, AlertTriangle, Lightbulb, Banknote, FileText } from 'lucide-react';
 import { generateRiskBriefing, GenerateRiskBriefingOutput } from '@/ai/flows/risk-assessment-flow';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -37,11 +36,15 @@ const industries = [
   'Other',
 ];
 
+const enterpriseSizes = [
+    { value: 'small', label: 'Small (1-50 employees)' },
+    { value: 'medium', label: 'Medium (51-500 employees)' },
+    { value: 'large', label: 'Large (501+ employees)' },
+];
+
 const formSchema = z.object({
   industry: z.string().min(1, { message: 'Please select an industry.' }),
-  dataTypes: z.string().min(10, {
-    message: 'Please describe your data types in at least 10 characters.',
-  }),
+  enterpriseSize: z.string().min(1, { message: 'Please select your company size.' }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -55,7 +58,7 @@ export default function RiskAssessmentPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       industry: '',
-      dataTypes: '',
+      enterpriseSize: '',
     },
   });
 
@@ -76,9 +79,17 @@ export default function RiskAssessmentPage() {
   }
 
   const renderMarkdown = (text: string) => {
-    return text.split('\n').map((line, index) => {
+    // A simple markdown renderer that handles paragraphs and bullet points
+    return text.split('\n').map((line, index, array) => {
         if (line.startsWith('* ')) {
+            // This is a list item
             return <li key={index} className="ml-4 list-disc">{line.substring(2)}</li>;
+        } else if (line.trim() === '') {
+            // This is a blank line, so render a paragraph break
+            return <div key={index} className="h-4"></div>;
+        } else if (index > 0 && array[index - 1].startsWith('* ') && !line.startsWith('* ')) {
+             // This is the first line after a list, treat it as a new paragraph
+             return <p key={index} className="mt-4">{line}</p>
         }
         return <p key={index}>{line}</p>;
     });
@@ -102,47 +113,56 @@ export default function RiskAssessmentPage() {
           <Card className="border-border/50 bg-secondary/30 p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                  control={form.control}
-                  name="industry"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg">Your Industry</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select the industry you operate in" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {industries.map((industry) => (
-                            <SelectItem key={industry} value={industry}>
-                              {industry}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="dataTypes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg">Sensitive Data Types</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="e.g., Patient medical records, financial transaction data, proprietary R&D formulas, government communications..."
-                          className="min-h-[120px]"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <FormField
+                    control={form.control}
+                    name="industry"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel className="text-lg">Your Industry</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select your industry" />
+                            </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                            {industries.map((industry) => (
+                                <SelectItem key={industry} value={industry}>
+                                {industry}
+                                </SelectItem>
+                            ))}
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="enterpriseSize"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel className="text-lg">Company Size</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select your company size" />
+                            </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                            {enterpriseSizes.map((size) => (
+                                <SelectItem key={size.value} value={size.value}>
+                                {size.label}
+                                </SelectItem>
+                            ))}
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                </div>
                 <div className="flex justify-center">
                     <Button type="submit" size="lg" disabled={isLoading}>
                     {isLoading ? (
@@ -185,21 +205,21 @@ export default function RiskAssessmentPage() {
                   <CardContent className="space-y-12">
                      <div>
                       <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tighter text-foreground mb-4">
-                        <AlertTriangle className="h-8 w-8 text-destructive" />
-                        Top Quantum Threats
+                        <FileText className="h-8 w-8 text-primary" />
+                        Sensitive Data Profile
                       </h2>
                       <div className="prose prose-invert max-w-none text-muted-foreground space-y-4">
-                        {renderMarkdown(briefing.topThreats)}
+                        {renderMarkdown(briefing.sensitiveData)}
                       </div>
                     </div>
 
                     <div>
                       <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tighter text-foreground mb-4">
-                        <Lightbulb className="h-8 w-8 text-primary" />
-                        "Harvest Now, Decrypt Later" Scenarios
+                        <AlertTriangle className="h-8 w-8 text-destructive" />
+                        Threat Analysis & Real-World Impact
                       </h2>
                       <div className="prose prose-invert max-w-none text-muted-foreground space-y-4">
-                        {renderMarkdown(briefing.hndlScenarios)}
+                        {renderMarkdown(briefing.threats)}
                       </div>
                     </div>
                     

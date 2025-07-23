@@ -14,14 +14,14 @@ import { z } from 'zod';
 // Define Zod schemas for input and output
 const GenerateRiskBriefingInputSchema = z.object({
   industry: z.string().describe('The industry the user operates in.'),
-  dataTypes: z.string().describe('A description of the sensitive data types the user handles.'),
+  enterpriseSize: z.string().describe("The size of the user's company (small, medium, or large)."),
 });
 export type GenerateRiskBriefingInput = z.infer<typeof GenerateRiskBriefingInputSchema>;
 
 const GenerateRiskBriefingOutputSchema = z.object({
-  topThreats: z.string().describe("A markdown-formatted string outlining the top 3 quantum threats for the specified industry, explaining why each is a risk."),
-  hndlScenarios: z.string().describe("A markdown-formatted string with 2-3 specific 'Harvest Now, Decrypt Later' scenarios relevant to the user's data types."),
-  productRecommendations: z.string().describe("A markdown-formatted string recommending specific BetelSec products (PRISM, SYNAPSE, DSG, QRC-84) to mitigate these threats, explaining why each is a good fit."),
+  sensitiveData: z.string().describe("A markdown-formatted string identifying the typical sensitive data for the specified industry."),
+  threats: z.string().describe("A markdown-formatted string detailing likely threats, targeting frequency, and a real-world scenario with financial impact."),
+  productRecommendations: z.string().describe("A markdown-formatted string recommending specific BetelSec products based on company size and threats."),
 });
 export type GenerateRiskBriefingOutput = z.infer<typeof GenerateRiskBriefingOutputSchema>;
 
@@ -41,13 +41,21 @@ const riskBriefingPrompt = ai.definePrompt({
     You are an expert Post-Quantum Cryptography (PQC) and cybersecurity strategist working for BetelSec.
     Your task is to generate a concise, personalized quantum risk briefing for a potential client.
 
-    The client is in the '{{{industry}}}' industry and is concerned about protecting the following data: '{{{dataTypes}}}'.
+    The client is in the '{{{industry}}}' industry and their company size is '{{{enterpriseSize}}}'.
 
     Based on this information, generate the following sections. Use markdown for formatting, especially bullet points (*).
 
-    1.  **Top Quantum Threats:** Identify the top 3 quantum threats for the client's industry. For each threat, briefly explain the specific risk it poses.
-    2.  **"Harvest Now, Decrypt Later" Scenarios:** Create 2-3 plausible scenarios describing how an adversary could be harvesting their specific data types ('{{{dataTypes}}}') today for future decryption. Make these scenarios concrete and impactful.
-    3.  **Recommended BetelSec Solutions:** Recommend specific BetelSec products (from the list: PRISM, SYNAPSE, DSG, QRC-84) to mitigate these threats. For each recommendation, clearly state which threat it addresses and why it is the appropriate solution. Be direct and confident in your recommendations.
+    1.  **Sensitive Data Profile:** Identify and list the most common and critical sensitive data types that are typically handled by organizations in the '{{{industry}}}' sector.
+
+    2.  **Threat Analysis & Real-World Impact:**
+        *   Describe the most likely quantum and classical cyber threats this industry faces (e.g., Harvest Now, Decrypt Later, state-sponsored espionage, ransomware).
+        *   Comment on how frequently companies in this sector are targeted.
+        *   Provide a specific, real-world (or highly plausible) scenario of a recent cyberattack in this industry. If possible, use a known case like Change Healthcare for Healthcare or CDK Global for automotive-related tech. If a direct example isn't famous, create a realistic one. Crucially, mention the estimated financial loss or impact of the attack.
+
+    3.  **Recommended BetelSec Solutions:** Recommend specific BetelSec products based on the following rules:
+        *   **Always recommend PRISM initially** for every company size as a foundational layer. Explain that it provides comprehensive data protection and AI-driven threat mitigation.
+        *   If the company size is 'small' or 'medium', **also recommend SYNAPSE and DSG**. Explain that SYNAPSE protects their data in transit (e.g., network traffic, APIs) and DSG protects their data at rest (e.g., databases, stored files), which are critical for growing businesses.
+        *   For 'large' enterprises, only recommend PRISM as the initial talking point, as their needs are more complex and would require a deeper consultation.
   `,
 });
 
