@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -43,6 +44,7 @@ const enterpriseSizes = [
 ];
 
 const formSchema = z.object({
+  companyName: z.string().min(2, { message: 'Please enter your company name.' }),
   industry: z.string().min(1, { message: 'Please select an industry.' }),
   enterpriseSize: z.string().min(1, { message: 'Please select your company size.' }),
 });
@@ -57,6 +59,7 @@ export default function RiskAssessmentPage() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      companyName: '',
       industry: '',
       enterpriseSize: '',
     },
@@ -114,6 +117,19 @@ export default function RiskAssessmentPage() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <FormField
+                      control={form.control}
+                      name="companyName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-lg">Company Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your company name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <FormField
                     control={form.control}
                     name="industry"

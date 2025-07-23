@@ -13,6 +13,7 @@ import { z } from 'zod';
 
 // Define Zod schemas for input and output
 const GenerateRiskBriefingInputSchema = z.object({
+  companyName: z.string().describe("The name of the user's company."),
   industry: z.string().describe('The industry the user operates in.'),
   enterpriseSize: z.string().describe("The size of the user's company (small, medium, or large)."),
 });
@@ -41,7 +42,7 @@ const riskBriefingPrompt = ai.definePrompt({
     You are an expert Post-Quantum Cryptography (PQC) and cybersecurity strategist working for BetelSec.
     Your task is to generate a concise, personalized quantum risk briefing for a potential client.
 
-    The client is in the '{{{industry}}}' industry and their company size is '{{{enterpriseSize}}}'.
+    The client's company is '{{{companyName}}}'. They are in the '{{{industry}}}' industry and their company size is '{{{enterpriseSize}}}'.
 
     Based on this information, generate the following sections. Use markdown for formatting, especially bullet points (*).
 
