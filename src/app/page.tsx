@@ -214,6 +214,39 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+      
+      {/* Thought Leadership Section */}
+      <section
+        id="threats"
+        className="items-center bg-secondary overflow-hidden py-24"
+      >
+        <div className="container">
+          <div className="grid items-center gap-16 md:grid-cols-2">
+            <div className="threat-content">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Threat Analysis
+              </h3>
+              <h2 className="mt-2 text-4xl font-bold tracking-tighter">
+                Harvest Now, Decrypt Later
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Adversaries are actively capturing encrypted data today, betting
+                on the future of quantum computing to unlock it. This long-term
+                threat requires immediate action to protect sensitive
+                information with a long shelf life.
+              </p>
+              <Button asChild variant="link" className="mt-4 px-0 text-base">
+                <Link href="/threats/harvest-now-decrypt-later">
+                  Read the full analysis <ArrowRight />
+                </Link>
+              </Button>
+            </div>
+            <div className="threat-image flex h-full min-h-[400px] w-full items-center justify-center">
+              <ThreatIcon3D />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Quantum Threat Dashboard Section */}
       <section
@@ -282,49 +315,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Industries Section */}
-      <section
-        id="industries"
-        className="items-center bg-secondary overflow-hidden py-24"
-      >
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-3xl text-center section-header">
-            <h2 className="text-4xl font-bold tracking-tighter">
-              Protecting Critical Sectors in India
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              We provide specialized security for India's most targeted
-              industries, where the stakes are highest.
-            </p>
-          </div>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
-          >
-            {industries.map((industry) => (
-              <motion.div key={industry.title} variants={itemVariants}>
-                <InteractiveCard>
-                  <Card className="h-full min-h-[280px] border-border/50 bg-background text-left transition-all duration-300 flex flex-col justify-center">
-                    <CardHeader>
-                      <industry.icon className="mb-4 h-8 w-8 text-foreground" />
-                      <CardTitle>{industry.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        {industry.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </InteractiveCard>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* Strategic Methodology Section */}
       <section
         id="approach"
@@ -355,40 +345,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      {/* Thought Leadership Section */}
-      <section
-        id="threats"
-        className="items-center bg-secondary overflow-hidden py-24"
-      >
-        <div className="container">
-          <div className="grid items-center gap-16 md:grid-cols-2">
-            <div className="threat-content">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                Threat Analysis
-              </h3>
-              <h2 className="mt-2 text-4xl font-bold tracking-tighter">
-                Harvest Now, Decrypt Later
-              </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
-                Adversaries are actively capturing encrypted data today, betting
-                on the future of quantum computing to unlock it. This long-term
-                threat requires immediate action to protect sensitive
-                information with a long shelf life.
-              </p>
-              <Button asChild variant="link" className="mt-4 px-0 text-base">
-                <Link href="/threats/harvest-now-decrypt-later">
-                  Read the full analysis <ArrowRight />
-                </Link>
-              </Button>
-            </div>
-            <div className="threat-image flex h-full min-h-[400px] w-full items-center justify-center">
-              <ThreatIcon3D />
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* Threat Mitigation Matrix Section */}
       <section
         id="mitigation-matrix"
@@ -502,6 +459,49 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Industries Section */}
+      <section
+        id="industries"
+        className="items-center bg-secondary overflow-hidden py-24"
+      >
+        <div className="container mx-auto px-4">
+          <div className="mx-auto mb-16 max-w-3xl text-center section-header">
+            <h2 className="text-4xl font-bold tracking-tighter">
+              Protecting Critical Sectors in India
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              We provide specialized security for India's most targeted
+              industries, where the stakes are highest.
+            </p>
+          </div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+          >
+            {industries.map((industry) => (
+              <motion.div key={industry.title} variants={itemVariants}>
+                <InteractiveCard>
+                  <Card className="h-full min-h-[280px] border-border/50 bg-background text-left transition-all duration-300 flex flex-col justify-center">
+                    <CardHeader>
+                      <industry.icon className="mb-4 h-8 w-8 text-foreground" />
+                      <CardTitle>{industry.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        {industry.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </InteractiveCard>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Final CTA Section */}
       <section
         id="cta"
