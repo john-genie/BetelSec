@@ -100,7 +100,7 @@ const QDayCountdown = () => {
       <TimeUnit label="Years">
         <div className="relative flex h-12 w-auto items-center justify-center overflow-hidden px-1 sm:h-20 sm:px-2 md:h-28">
             <span className="text-3xl font-bold tracking-tighter text-glow sm:text-6xl md:text-8xl">
-              {timeLeft.years}
+              {String(timeLeft.years).padStart(2, '0')}
             </span>
         </div>
       </TimeUnit>

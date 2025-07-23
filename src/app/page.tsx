@@ -212,7 +212,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="max-w-4xl text-4xl font-bold tracking-tighter md:text-5xl"
+            className="max-w-4xl text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl"
           >
             The Security Of Tomorrow Rethought For Today
           </motion.h1>
@@ -228,11 +228,16 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="mt-8 flex gap-4"
+            className="mt-8 flex flex-col sm:flex-row gap-4"
           >
             <Button asChild size="lg">
               <Link href="/contact">
-                Request a Confidential Briefing <ArrowRight />
+                Request a Confidential Briefing <ArrowRight className="ml-2"/>
+              </Link>
+            </Button>
+             <Button asChild size="lg" variant="outline">
+              <Link href="/risk-assessment">
+                Get Your Free Risk Analysis <ArrowRight className="ml-2"/>
               </Link>
             </Button>
           </motion.div>
@@ -250,7 +255,7 @@ export default function Home() {
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                 Threat Analysis
               </h3>
-              <h2 className="mt-2 text-4xl font-bold tracking-tighter">
+              <h2 className="mt-2 text-3xl font-bold tracking-tighter sm:text-4xl">
                 Harvest Now, Decrypt Later
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
@@ -261,11 +266,11 @@ export default function Home() {
               </p>
               <Button asChild variant="link" className="mt-4 px-0 text-base">
                 <Link href="/threats/harvest-now-decrypt-later">
-                  Read the full analysis <ArrowRight />
+                  Read the full analysis <ArrowRight className="ml-2"/>
                 </Link>
               </Button>
             </div>
-            <div className="threat-image flex h-full min-h-[400px] w-full items-center justify-center">
+            <div className="threat-image flex h-full min-h-[300px] sm:min-h-[400px] w-full items-center justify-center">
               <ThreatIcon3D />
             </div>
           </div>
@@ -284,7 +289,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl font-bold tracking-tighter text-glow"
+              className="text-3xl font-bold tracking-tighter text-glow sm:text-4xl md:text-5xl"
             >
               The Quantum Horizon is Closing
             </motion.h2>
@@ -306,7 +311,7 @@ export default function Home() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-            className="my-16"
+            className="my-12 sm:my-16"
           >
             <QDayCountdown />
           </motion.div>
@@ -318,7 +323,7 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.2 }}
             className="mx-auto max-w-3xl"
           >
-            <h3 className="text-2xl font-bold tracking-tight">
+            <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
               PRISM: Your Proactive Defense
             </h3>
             <p className="mt-4 text-muted-foreground">
@@ -331,7 +336,7 @@ export default function Home() {
             <div className="mt-8 flex justify-center">
               <Button asChild size="lg">
                 <Link href="/products/prism">
-                  Discover PRISM <ArrowRight />
+                  Discover PRISM <ArrowRight className="ml-2"/>
                 </Link>
               </Button>
             </div>
@@ -346,7 +351,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-16 max-w-3xl text-center section-header">
-            <h2 className="text-4xl font-bold tracking-tighter">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Our Strategic Methodology
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
@@ -377,7 +382,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-16 max-w-3xl text-center section-header">
-            <h2 className="text-4xl font-bold tracking-tighter">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Threat Mitigation Matrix
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
@@ -460,18 +465,19 @@ export default function Home() {
                               <h4 className="font-semibold text-foreground mb-3">Mitigated By:</h4>
                               <div className="flex flex-wrap gap-x-6 gap-y-3">
                                   {matrixProducts.map(product => (
-                                      <div
+                                      <Link
                                           key={product.id}
+                                          href={product.href}
                                           className={cn(
                                               "flex items-center gap-2 text-sm",
                                               item.mitigation[product.id as keyof typeof item.mitigation]
-                                                  ? "text-primary"
+                                                  ? "text-primary hover:underline"
                                                   : "text-muted-foreground opacity-60 line-through"
                                           )}
                                       >
                                           <ShieldCheck className={cn("h-5 w-5", item.mitigation[product.id as keyof typeof item.mitigation] ? 'text-primary' : 'text-muted-foreground')} />
                                           <span>{product.name}</span>
-                                      </div>
+                                      </Link>
                                   ))}
                               </div>
                           </CardContent>
@@ -490,7 +496,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-16 max-w-3xl text-center section-header">
-            <h2 className="text-4xl font-bold tracking-tighter">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Protecting Critical Sectors in India
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
@@ -508,7 +514,7 @@ export default function Home() {
             {industries.map((industry) => (
               <motion.div key={industry.title} variants={itemVariants}>
                 <InteractiveCard>
-                  <Card className="h-full min-h-[280px] border-border/50 bg-background text-left transition-all duration-300 flex flex-col justify-center">
+                  <Card className="h-full min-h-[220px] sm:min-h-[280px] border-border/50 bg-background text-left transition-all duration-300 flex flex-col justify-center">
                     <CardHeader>
                       <industry.icon className="mb-4 h-8 w-8 text-foreground" />
                       <CardTitle>{industry.title}</CardTitle>
@@ -533,7 +539,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-16 max-w-3xl text-center section-header">
-            <h2 className="text-4xl font-bold tracking-tighter">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Recent Briefings
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
@@ -545,7 +551,7 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {blogPosts.slice(0, 3).map((post) => (
               <motion.div key={post.slug} variants={itemVariants}>
@@ -572,7 +578,7 @@ export default function Home() {
           <div className="mt-16 text-center">
             <Button asChild size="lg" variant="outline">
               <Link href="/blog">
-                View All Briefings <ArrowRight />
+                View All Briefings <ArrowRight className="ml-2"/>
               </Link>
             </Button>
           </div>
@@ -585,7 +591,7 @@ export default function Home() {
         className="flex flex-col items-center justify-center bg-background text-foreground py-24"
       >
         <div className="container flex flex-1 flex-col items-center justify-center text-center">
-          <h2 className="text-5xl font-bold tracking-tighter md:text-6xl">
+          <h2 className="text-4xl font-bold tracking-tighter md:text-5xl">
             Initiate Secure Contact
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
@@ -595,7 +601,7 @@ export default function Home() {
           <div className="mt-8">
             <Button asChild size="lg">
               <Link href="/contact">
-                Contact Us <ArrowRight />
+                Contact Us <ArrowRight className="ml-2"/>
               </Link>
             </Button>
           </div>
