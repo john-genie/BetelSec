@@ -135,14 +135,15 @@ export default function RiskAssessmentPage() {
   const renderMarkdown = (text: string) => {
     // A simple markdown renderer that handles paragraphs and bullet points
     return text.split('\n').map((line, index, array) => {
+        line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         if (line.startsWith('* ')) {
-            return <li key={index} className="ml-4 list-disc">{line.substring(2)}</li>;
+            return <li key={index} className="ml-4 list-disc" dangerouslySetInnerHTML={{ __html: line.substring(2) }}></li>;
         } else if (line.trim() === '') {
             return <div key={index} className="h-4"></div>;
         } else if (index > 0 && array[index - 1].startsWith('* ') && !line.startsWith('* ')) {
-             return <p key={index} className="mt-4">{line}</p>
+             return <p key={index} className="mt-4" dangerouslySetInnerHTML={{ __html: line }}></p>
         }
-        return <p key={index}>{line}</p>;
+        return <p key={index} dangerouslySetInnerHTML={{ __html: line }}></p>;
     });
   };
 
