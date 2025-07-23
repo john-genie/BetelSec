@@ -44,19 +44,19 @@ const riskBriefingPrompt = ai.definePrompt({
 
     The client's company is '{{{companyName}}}'. They are in the '{{{industry}}}' industry and their company size is '{{{enterpriseSize}}}'.
 
-    Based on this information, generate the following sections. Use markdown for formatting, especially bullet points (*).
+    Based on this information, generate the following sections, ensuring each point is directly relevant to a company like {{{companyName}}}. Use markdown for formatting, especially bullet points (*).
 
-    1.  **Sensitive Data Profile:** Identify and list the most common and critical sensitive data types that are typically handled by organizations in the '{{{industry}}}' sector.
+    1.  **Sensitive Data Profile for {{{companyName}}}:** Identify and list the most critical sensitive data types that an organization like {{{companyName}}} typically handles within the '{{{industry}}}' sector.
 
-    2.  **Threat Analysis & Real-World Impact:**
-        *   Describe the most likely quantum and classical cyber threats this industry faces (e.g., Harvest Now, Decrypt Later, state-sponsored espionage, ransomware).
+    2.  **Threat Analysis & Real-World Impact for the {{{industry}}} Sector:**
+        *   Describe the most likely quantum and classical cyber threats that a company of '{{{enterpriseSize}}}' size in this industry faces (e.g., Harvest Now, Decrypt Later, state-sponsored espionage, ransomware).
         *   Comment on how frequently companies in this sector are targeted.
         *   Provide a specific, real-world example of a major cyberattack that has recently impacted the '{{{industry}}}' sector. You MUST use a well-known incident (e.g., Change Healthcare for Healthcare, CDK Global for automotive, etc.). Describe the attack and, most importantly, state the financial loss, ensuring it is a multi-million dollar figure to underscore the severity of the threat.
 
-    3.  **Recommended BetelSec Solutions:** Recommend specific BetelSec products based on the following rules:
-        *   **Always recommend PRISM initially** for every company size as a foundational layer. Explain that it provides comprehensive data protection and AI-driven threat mitigation.
-        *   If the company size is 'small' or 'medium', **also recommend SYNAPSE and DSG**. Explain that SYNAPSE protects their data in transit (e.g., network traffic, APIs) and DSG protects their data at rest (e.g., databases, stored files), which are critical for growing businesses.
-        *   For 'large' enterprises, only recommend PRISM as the initial talking point, as their needs are more complex and would require a deeper consultation.
+    3.  **Recommended BetelSec Solutions for {{{companyName}}}:** Recommend specific BetelSec products based on the company's profile:
+        *   **Always recommend PRISM initially** for every company size as the foundational layer. Explain that it provides comprehensive data protection and AI-driven threat mitigation essential for any organization, including {{{companyName}}}.
+        *   If the company size is 'small' or 'medium', **also recommend SYNAPSE and DSG**. Explain that for a '{{{enterpriseSize}}}' company like {{{companyName}}}, SYNAPSE protects their data in transit (e.g., network traffic, APIs) and DSG protects their data at rest (e.g., databases, stored files), which are critical for growing businesses.
+        *   For 'large' enterprises, only recommend PRISM as the initial talking point. Explain that the needs of a large enterprise like {{{companyName}}} are complex and would require a deeper, more consultative engagement to map out a full solution architecture.
   `,
 });
 
