@@ -32,12 +32,28 @@ import debounce from 'lodash.debounce';
 
 
 const industries = [
-  'Government & Defense',
-  'Financial Institutions',
-  'Critical Infrastructure',
-  'Technology & IP',
-  'Pharmaceuticals',
+  'Aerospace & Defense',
+  'Automotive',
+  'Banking & Capital Markets',
+  'Chemicals',
+  'Consumer Products',
+  'Education',
+  'Energy, Resources & Industrials',
+  'Financial Services',
+  'Government & Public Services',
   'Healthcare',
+  'Hospitality',
+  'Insurance',
+  'Life Sciences & Pharmaceuticals',
+  'Manufacturing',
+  'Media & Entertainment',
+  'Mining & Metals',
+  'Oil, Gas & Chemicals',
+  'Power, Utilities & Renewables',
+  'Real Estate',
+  'Retail',
+  'Technology, Media & Telecommunications',
+  'Transportation & Logistics',
   'Other',
 ];
 

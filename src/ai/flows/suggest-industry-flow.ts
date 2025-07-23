@@ -11,12 +11,28 @@ import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 
 const industries = [
-  'Government & Defense',
-  'Financial Institutions',
-  'Critical Infrastructure',
-  'Technology & IP',
-  'Pharmaceuticals',
+  'Aerospace & Defense',
+  'Automotive',
+  'Banking & Capital Markets',
+  'Chemicals',
+  'Consumer Products',
+  'Education',
+  'Energy, Resources & Industrials',
+  'Financial Services',
+  'Government & Public Services',
   'Healthcare',
+  'Hospitality',
+  'Insurance',
+  'Life Sciences & Pharmaceuticals',
+  'Manufacturing',
+  'Media & Entertainment',
+  'Mining & Metals',
+  'Oil, Gas & Chemicals',
+  'Power, Utilities & Renewables',
+  'Real Estate',
+  'Retail',
+  'Technology, Media & Telecommunications',
+  'Transportation & Logistics',
   'Other',
 ];
 
@@ -46,12 +62,28 @@ const suggestIndustryPrompt = ai.definePrompt({
     Company Description: {{{companyDescription}}}
 
     Your response MUST be one of the following options:
-    - Government & Defense
-    - Financial Institutions
-    - Critical Infrastructure
-    - Technology & IP
-    - Pharmaceuticals
+    - Aerospace & Defense
+    - Automotive
+    - Banking & Capital Markets
+    - Chemicals
+    - Consumer Products
+    - Education
+    - Energy, Resources & Industrials
+    - Financial Services
+    - Government & Public Services
     - Healthcare
+    - Hospitality
+    - Insurance
+    - Life Sciences & Pharmaceuticals
+    - Manufacturing
+    - Media & Entertainment
+    - Mining & Metals
+    - Oil, Gas & Chemicals
+    - Power, Utilities & Renewables
+    - Real Estate
+    - Retail
+    - Technology, Media & Telecommunications
+    - Transportation & Logistics
     - Other
   `,
 });
