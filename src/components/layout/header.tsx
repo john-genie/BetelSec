@@ -12,12 +12,6 @@ import {
   SheetClose
 } from '@/components/ui/sheet';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -37,8 +31,8 @@ const productLinks = [
 ];
 
 const threatLinks = [
-    { name: 'Harvest Now, Decrypt Later', href: '/threats/harvest-now-decrypt-later' },
-    { name: 'Quantum Risk Assessment', href: '/risk-assessment' },
+    { name: 'Harvest Now, Decrypt Later', href: '/threats/harvest-now-decrypt-later', description: 'Understand the primary quantum threat to long-term data.' },
+    { name: 'Quantum Risk Assessment', href: '/risk-assessment', description: 'Generate an AI-powered risk profile for your organization.' },
 ]
 
 export function Header() {
@@ -69,68 +63,80 @@ export function Header() {
           <span>BetelSec</span>
         </Link>
         
-        <nav className="hidden items-center gap-1 md:flex">
-          <Button variant="ghost" asChild>
-            <Link href="/">Home</Link>
-          </Button>
+        <NavigationMenu className="hidden items-center gap-1 md:flex">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+                <Link href="/" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        Home
+                    </NavigationMenuLink>
+                </Link>
+            </NavigationMenuItem>
 
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className={navigationMenuTriggerStyle()}>Products</NavigationMenuTrigger>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="grid w-[600px] grid-cols-2 gap-3 p-4">
+                  <Link
+                    href={hoveredProduct.href}
+                    className="flex h-full flex-col justify-start rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                  >
+                    <Lock className="h-8 w-8" />
+                    <div className="mt-4 mb-2 text-lg font-medium">
+                      {hoveredProduct.name}
+                    </div>
+                    <p className="text-sm leading-tight text-muted-foreground">
+                      {hoveredProduct.description}
+                    </p>
+                  </Link>
+                  <ul className="flex flex-col gap-1">
+                    {productLinks.map((component) => (
+                      <ListItem
+                        key={component.name}
+                        title={component.name}
+                        href={component.href}
+                        onMouseEnter={() => setHoveredProduct(component)}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+                <NavigationMenuTrigger>Threat Analysis</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="grid w-[600px] grid-cols-2 gap-3 p-4">
-                    <Link
-                      href={hoveredProduct.href}
-                      className="flex h-full flex-col justify-start rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    >
-                      <Lock className="h-8 w-8" />
-                      <div className="mt-4 mb-2 text-lg font-medium">
-                        {hoveredProduct.name}
-                      </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        {hoveredProduct.description}
-                      </p>
-                    </Link>
-                    <ul className="flex flex-col gap-1">
-                      {productLinks.map((component) => (
-                        <ListItem
-                          key={component.name}
-                          title={component.name}
-                          href={component.href}
-                          onMouseEnter={() => setHoveredProduct(component)}
-                        />
-                      ))}
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
+                         {threatLinks.map((link) => (
+                            <ListItem
+                                key={link.name}
+                                title={link.name}
+                                href={link.href}
+                            >
+                                {link.description}
+                            </ListItem>
+                        ))}
                     </ul>
-                  </div>
                 </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+            </NavigationMenuItem>
+            
+            <NavigationMenuItem>
+                <Link href="/about" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        About Us
+                    </NavigationMenuLink>
+                </Link>
+            </NavigationMenuItem>
 
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost">
-                Threat Analysis <ChevronDown className="ml-1 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                {threatLinks.map(link => (
-                    <DropdownMenuItem key={link.name} asChild>
-                        <Link href={link.href}>{link.name}</Link>
-                    </DropdownMenuItem>
-                ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Button variant="ghost" asChild>
-            <Link href="/about">About Us</Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/blog">Blog</Link>
-          </Button>
-        </nav>
+            <NavigationMenuItem>
+                <Link href="/blog" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        Blog
+                    </NavigationMenuLink>
+                </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
 
         <div className="md:hidden">
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -204,13 +210,13 @@ export function Header() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<typeof Link> & { onMouseEnter?: React.MouseEventHandler<HTMLLIElement> }
->(({ className, title, href, onMouseEnter, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & { onMouseEnter?: React.MouseEventHandler<HTMLLIElement>, title: string }
+>(({ className, title, children, href, onMouseEnter, ...props }, ref) => {
   return (
     <li onMouseEnter={onMouseEnter}>
       <NavigationMenuLink asChild>
-        <Link
-          ref={ref as React.Ref<HTMLAnchorElement>}
+        <a
+          ref={ref}
           href={href}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
@@ -218,8 +224,11 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title as string}</div>
-        </Link>
+          <div className="text-sm font-medium leading-none">{title}</div>
+           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
       </NavigationMenuLink>
     </li>
   );
