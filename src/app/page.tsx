@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -247,7 +248,7 @@ export default function Home() {
       {/* Thought Leadership Section */}
       <section
         id="threats"
-        className="items-center bg-secondary overflow-hidden py-24"
+        className="items-center bg-secondary overflow-hidden py-32"
       >
         <div className="container">
           <div className="grid items-center gap-16 md:grid-cols-2">
@@ -280,7 +281,7 @@ export default function Home() {
       {/* Quantum Threat Dashboard Section */}
       <section
         id="q-day"
-        className="items-center bg-background overflow-hidden pt-16 pb-24 text-center"
+        className="items-center bg-background overflow-hidden pt-24 pb-32 text-center"
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl section-header">
@@ -311,7 +312,7 @@ export default function Home() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-            className="my-12 sm:my-16"
+            className="my-16 sm:my-20"
           >
             <QDayCountdown />
           </motion.div>
@@ -347,10 +348,10 @@ export default function Home() {
       {/* Strategic Methodology Section */}
       <section
         id="approach"
-        className="items-center bg-background overflow-hidden py-24"
+        className="items-center bg-secondary overflow-hidden py-32"
       >
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-3xl text-center section-header">
+          <div className="mx-auto mb-20 max-w-3xl text-center section-header">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Our Strategic Methodology
             </h2>
@@ -378,10 +379,10 @@ export default function Home() {
       {/* Threat Mitigation Matrix Section */}
       <section
         id="mitigation-matrix"
-        className="items-center bg-background overflow-hidden py-24"
+        className="items-center bg-background overflow-hidden py-32"
       >
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-3xl text-center section-header">
+          <div className="mx-auto mb-20 max-w-3xl text-center section-header">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Threat Mitigation Matrix
             </h2>
@@ -492,10 +493,10 @@ export default function Home() {
       {/* Industries Section */}
       <section
         id="industries"
-        className="items-center bg-secondary overflow-hidden py-24"
+        className="items-center bg-secondary overflow-hidden py-32"
       >
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-3xl text-center section-header">
+          <div className="mx-auto mb-20 max-w-3xl text-center section-header">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Protecting Critical Sectors in India
             </h2>
@@ -535,10 +536,10 @@ export default function Home() {
       {/* Recent Briefings Section */}
       <section
         id="recent-briefings"
-        className="items-center bg-background overflow-hidden py-24"
+        className="items-center bg-background overflow-hidden py-32"
       >
         <div className="container mx-auto px-4">
-          <div className="mx-auto mb-16 max-w-3xl text-center section-header">
+          <div className="mx-auto mb-20 max-w-3xl text-center section-header">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Recent Briefings
             </h2>
@@ -588,7 +589,7 @@ export default function Home() {
       {/* Final CTA Section */}
       <section
         id="cta"
-        className="flex flex-col items-center justify-center bg-background text-foreground py-24"
+        className="flex flex-col items-center justify-center bg-secondary text-foreground py-32"
       >
         <div className="container flex flex-1 flex-col items-center justify-center text-center">
           <h2 className="text-4xl font-bold tracking-tighter md:text-5xl">
@@ -613,3 +614,5 @@ export default function Home() {
     </>
   );
 }
+
+    
